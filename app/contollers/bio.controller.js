@@ -99,17 +99,60 @@ exports.put = (req, res) => {
       }
     );
 
-
-
-    if (updatedBiodata === null) {
-      return res.status(404).json({ message: 'Data biodata tidak ditemukan.' });
-    }
-
     res.json({ message: 'Data biodata berhasil diperbarui.' });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: 'Terjadi kesalahan saat memperbarui data biodata.' });
   }
+}
+
+exports.update = (req, res) => {
+  // res.json(req.body);
+
+  if (!req.body.nama) {
+    res.status(400).send({
+      mesegge: "nama tidak boleh kosong"
+    })
+    return
+  }
+  if (!req.body.tempat_lahir) {
+    res.status(400).send({
+      mesegge: "tempat_lahir tidak boleh kosong"
+    })
+    return
+  }
+  if (!req.body.tanggal_lahir) {
+    res.status(400).send({
+      mesegge: "tanggal_lahir tidak boleh kosong"
+    })
+    return
+  }
+  if (!req.body.alamat) {
+    res.status(400).send({
+      mesegge: "alamat tidak boleh kosong"
+    })
+    return
+  }
+
+  Biodata.findOne({
+    where: {
+      id_biodata: req.params.id_biodata
+    }
+  }).then(data => {
+    data.nama = req.body.nama
+    data.tempat_lahir = req.body.tempat_lahir
+    data.tanggal_lahir = req.body.tanggal_lahir
+    data.alamat = req.body.alamat
+    data.save()
+
+    res.send({
+      mesegge: `data dengan id_biodata ${data.id_biodata} berhasil di rubah`
+    })
+  }).catch(err => {
+    res.status(500).send({
+      message: "data gak ada"
+    })
+  })
 }
 
 

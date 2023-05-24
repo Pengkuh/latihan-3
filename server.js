@@ -65,6 +65,9 @@ app.delete('/biodata/:id_biodata', (req, res) => {
 app.put('/biodata/:id_biodata', (req, res) => {
   biodata.put(req, res);
 });
+app.put('/biodata-update/:id_biodata', (req, res) => {
+  biodata.update(req, res);
+});
 
 /** SET PORT, LISTEN FOR REQUEST */
 const PORT = process.env.PORT || 8080;
